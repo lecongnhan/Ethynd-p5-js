@@ -11,15 +11,29 @@ class Character {
         console.log(millis() - this.lastDrawTime);
         
         let action = this.getAction();
-        let sprite;
+        let minSpriteIndex;
+        let maxSpriteIndex;
 
         switch(action){
             case CHAR_ACTION.WALK_DOWN:
-                sprite = this.getSprite(CHAR_ACTION.WALK_DOWN, this.spriteIndex);
+                minSpriteIndex = CHAR_ACTION_NUM_SPRITES.WALK_DOWN_MIN;
+                maxSpriteIndex = CHAR_ACTION_NUM_SPRITES.WALK_DOWN_MAX;
+                break;
+        }
 
-                if (millis() - this.lastDrawTime < 1000 / CHAR_FRAME_RATE) break;
-                this.spriteIndex = (this.spriteIndex + 1) % CHAR_ACTION_NUM_SPRITES.WALK_DOWN_MAX + CHAR_ACTION_NUM_SPRITES.WALK_DOWN_MIN;
-                this.lastDrawTime = millis();
+        this.drawAction(action, CHAR_ACTION_NUM_SPRITES.WALK_DOWN_MIN, CHAR_ACTION_NUM_SPRITES.WALK_DOWN_MAX);
+    }
+
+    drawAction(action, minSpriteIndex, maxSpriteIndex){
+        if (millis() - this.lastDrawTime >= 1000 / CHAR_FRAME_RATE){
+            this.spriteIndex = (this.spriteIndex + 1) % maxSpriteIndex + minSpriteIndex;
+            this.lastDrawTime = millis();
+        }
+
+        let sprite;
+        switch(action){
+            case CHAR_ACTION.WALK_DOWN:
+                sprite = this.getSprite(CHAR_ACTION.WALK_DOWN, this.spriteIndex);
                 break;
         }
 
