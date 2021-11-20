@@ -1,0 +1,12 @@
+var CHAR_ACTION = {
+    WALK_DOWN: 0,
+}
+
+var CHAR_ACTION_NUM_SPRITES = {
+    WALK_DOWN_MIN: 1,
+    WALK_DOWN_MAX: 4,
+}
+
+CHAR_FRAME_RATE = 6;
+
+FRAME_RATE = 30;

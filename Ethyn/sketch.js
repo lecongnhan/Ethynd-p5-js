@@ -1,8 +1,13 @@
 function setup() {
-  // put setup code here
+  createCanvas(400, 400);
+  frameRate(FRAME_RATE);
+  GV.characters.push(new Character());
 }
 
 function draw() {
+  background(255);
   // put drawing code here
-  console.log("a")
+  for (character of GV.characters) {
+    character.draw();
+  }
 }
