@@ -1,8 +1,11 @@
 var CHAR_ACTION = {
-    WALK_DOWN: 0,
+    IDLE: 0,
+    WALK_DOWN: 1,
 }
 
 var CHAR_ACTION_NUM_SPRITES = {
+    IDLE_MIN: 0,
+    IDLE_MAX: 0,
     WALK_DOWN_MIN: 1,
     WALK_DOWN_MAX: 4,
 }
