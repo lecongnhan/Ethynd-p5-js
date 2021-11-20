@@ -6,7 +6,6 @@ class Character {
 
         /** animtions */
         this.spriteCache = {};
-        console.log("created character " + this.id + ": " + this.name);
     }
 
     draw(){
@@ -15,13 +14,25 @@ class Character {
         let maxSpriteIndex;
 
         switch(action){
+            case CHAR_ACTION.IDLE:
+                minSpriteIndex = CHAR_ACTION_NUM_SPRITES.IDLE_MIN;
+                maxSpriteIndex = CHAR_ACTION_NUM_SPRITES.IDLE_MAX;
+                break;
             case CHAR_ACTION.WALK_DOWN:
                 minSpriteIndex = CHAR_ACTION_NUM_SPRITES.WALK_DOWN_MIN;
                 maxSpriteIndex = CHAR_ACTION_NUM_SPRITES.WALK_DOWN_MAX;
                 break;
-            case CHAR_ACTION.IDLE:
-                minSpriteIndex = CHAR_ACTION_NUM_SPRITES.IDLE_MIN;
-                maxSpriteIndex = CHAR_ACTION_NUM_SPRITES.IDLE_MAX;
+            case CHAR_ACTION.WALK_RIGHT:
+                minSpriteIndex = CHAR_ACTION_NUM_SPRITES.WALK_RIGHT_MIN;
+                maxSpriteIndex = CHAR_ACTION_NUM_SPRITES.WALK_RIGHT_MAX;
+                break;
+            case CHAR_ACTION.WALK_UP:
+                minSpriteIndex = CHAR_ACTION_NUM_SPRITES.WALK_UP_MIN;
+                maxSpriteIndex = CHAR_ACTION_NUM_SPRITES.WALK_UP_MAX;
+                break;
+            case CHAR_ACTION.WALK_LEFT:
+                minSpriteIndex = CHAR_ACTION_NUM_SPRITES.WALK_LEFT_MIN;
+                maxSpriteIndex = CHAR_ACTION_NUM_SPRITES.WALK_LEFT_MAX;
                 break;
         }
 
@@ -33,33 +44,39 @@ class Character {
             if (minSpriteIndex == maxSpriteIndex){
                 this.spriteIndex = minSpriteIndex;
             } else {
-                this.spriteIndex = (this.spriteIndex + 1) % maxSpriteIndex + minSpriteIndex;
+                this.spriteIndex = (this.spriteIndex + 1) % (maxSpriteIndex - minSpriteIndex + 1);
             }
 
             this.lastDrawTime = millis();
         }
 
         let sprite;
-        switch(action){
-            case CHAR_ACTION.WALK_DOWN:
-                sprite = this.getSprite(CHAR_ACTION.WALK_DOWN, this.spriteIndex);
-                break;
-            case CHAR_ACTION.IDLE:
-                sprite = this.getSprite(CHAR_ACTION.IDLE, this.spriteIndex);
-        }
+        sprite = this.getSprite(action, this.spriteIndex + minSpriteIndex);
+        console.log("drawing sprite " + this.spriteIndex + " for " + action);
 
         image(sprite, 0, 0);
     }
 
     /** sets action & reset animation for character */
     setAction(action){
+        if (this.action == action) return;
         this.action = action;
+
         switch(action){
             case CHAR_ACTION.WALK_DOWN:
                 this.spriteIndex = CHAR_ACTION_NUM_SPRITES.WALK_DOWN_MIN;
                 break;
             case CHAR_ACTION.IDLE:
                 this.spriteIndex = CHAR_ACTION_NUM_SPRITES.IDLE_MIN;
+                break;
+            case CHAR_ACTION.WALK_LEFT:
+                this.spriteIndex = CHAR_ACTION_NUM_SPRITES.WALK_LEFT_MIN;
+                break;
+            case CHAR_ACTION.WALK_RIGHT:
+                this.spriteIndex = CHAR_ACTION_NUM_SPRITES.WALK_RIGHT_MIN;
+                break;
+            case CHAR_ACTION.WALK_UP:
+                this.spriteIndex = CHAR_ACTION_NUM_SPRITES.WALK_UP_MIN;
                 break;
         }
 
@@ -89,6 +106,6 @@ class Character {
     }
 
     getImgPath(index){
-        return "images/sprites/personnage_0" + padZero(index, 1, true) + ".png";
+        return "images/sprites/personnage_" + padZero(index, 2, true) + ".png";
     }
 }
