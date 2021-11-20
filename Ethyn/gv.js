@@ -1,4 +1,4 @@
 var GV = {
     myCharacter: null,
-    characters: []
+    characters: [],
 }

@@ -1,11 +1,35 @@
 class Character {
-    constructor(name="default"){
+    constructor(name="default", x=0, y=0){
         this.name = name;
         this.id = GV.characters.length;
         this.setAction(CHAR_ACTION.IDLE);
+        this.x = x;
+        this.y = y;
 
         /** animtions */
         this.spriteCache = {};
+    }
+
+    update(){
+        this.updatePosition();
+        this.draw();
+    }
+
+    updatePosition(){
+        switch(this.action){
+            case CHAR_ACTION.WALK_DOWN:
+                this.y += CHAR_SPEED;
+                break;
+            case CHAR_ACTION.WALK_LEFT:
+                this.x -= CHAR_SPEED;
+                break;
+            case CHAR_ACTION.WALK_RIGHT:
+                this.x += CHAR_SPEED;
+                break;
+            case CHAR_ACTION.WALK_UP:
+                this.y -= CHAR_SPEED;
+                break;
+        }
     }
 
     draw(){
@@ -52,14 +76,14 @@ class Character {
 
         let sprite;
         sprite = this.getSprite(action, this.spriteIndex + minSpriteIndex);
-        console.log("drawing sprite " + this.spriteIndex + " for " + action);
 
-        image(sprite, 0, 0);
+        image(sprite, this.x, this.y);
     }
 
     /** sets action & reset animation for character */
     setAction(action){
         if (this.action == action) return;
+        console.log("set action " + action);
         this.action = action;
 
         switch(action){
