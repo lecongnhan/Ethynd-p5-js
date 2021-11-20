@@ -130,6 +130,6 @@ class Character {
     }
 
     getImgPath(index){
-        return "images/sprites/personnage_" + padZero(index, 2, true) + ".png";
+        return "static/images/sprites/personnage_" + padZero(index, 2, true) + ".png";
     }
 }
